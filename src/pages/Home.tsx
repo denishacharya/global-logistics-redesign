@@ -4,26 +4,86 @@ import ServiceCard from "@/components/ServiceCard";
 import AnimatedSection from "@/components/AnimatedSection";
 import Testimonials from "@/components/Testimonials";
 import ClientLogos from "@/components/ClientLogos";
+import MetricsDashboard from "@/components/MetricsDashboard";
+import TeamSection from "@/components/TeamSection";
+import FAQ from "@/components/FAQ";
+import SEOHead, { OrganizationSchema } from "@/components/SEOHead";
 import { Plane, Ship, Truck, Package, Globe, Clock, Shield, Award } from "lucide-react";
 import { motion } from "framer-motion";
 import CountUp from "react-countup";
 import { useInView } from "react-intersection-observer";
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
 import heroImage from "@/assets/hero-logistics.jpg";
 
 const Home = () => {
+  const floatingIconsRef = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    // GSAP floating animation for hero icons
+    floatingIconsRef.current.forEach((icon, index) => {
+      if (icon) {
+        gsap.to(icon, {
+          y: -20,
+          duration: 2 + index * 0.5,
+          repeat: -1,
+          yoyo: true,
+          ease: "power1.inOut",
+          delay: index * 0.2,
+        });
+      }
+    });
+  }, []);
+
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative h-[600px] flex items-center justify-center text-center overflow-hidden">
+      <SEOHead 
+        title="Team Global Logistics - Best Cargo & Logistics Company in Nepal"
+        description="Leading logistics company in Nepal offering air freight, sea freight, road transport, warehousing and import/export services. 15+ years experience, 50+ countries served."
+        keywords="Team Global Logistics, logistics Nepal, cargo Nepal, air freight Nepal, sea freight Nepal, import export Nepal, best logistics company Nepal"
+      />
+      <OrganizationSchema />
+
+      {/* Hero Section with Parallax & Floating Icons */}
+      <section className="relative h-screen flex items-center justify-center text-center overflow-hidden">
         <div
           className="absolute inset-0 z-0"
           style={{
             backgroundImage: `url(${heroImage})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
+            backgroundAttachment: "fixed",
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/70" />
+        </div>
+
+        {/* Floating Icons */}
+        <div className="absolute inset-0 z-5 pointer-events-none">
+          <div 
+            ref={(el) => (floatingIconsRef.current[0] = el)}
+            className="absolute top-20 left-10 text-white/20"
+          >
+            <Plane className="h-16 w-16" />
+          </div>
+          <div 
+            ref={(el) => (floatingIconsRef.current[1] = el)}
+            className="absolute top-40 right-20 text-white/20"
+          >
+            <Ship className="h-20 w-20" />
+          </div>
+          <div 
+            ref={(el) => (floatingIconsRef.current[2] = el)}
+            className="absolute bottom-40 left-20 text-white/20"
+          >
+            <Truck className="h-14 w-14" />
+          </div>
+          <div 
+            ref={(el) => (floatingIconsRef.current[3] = el)}
+            className="absolute bottom-20 right-10 text-white/20"
+          >
+            <Package className="h-12 w-12" />
+          </div>
         </div>
         
         <div className="relative z-10 container mx-auto px-4">
@@ -31,17 +91,17 @@ const Home = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-4xl md:text-6xl font-bold text-primary-foreground mb-6 font-['Poppins']"
+            className="text-5xl md:text-7xl font-bold text-primary-foreground mb-6 font-['Poppins']"
           >
-            Global Logistics Solutions
+            Team Global Logistics
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="text-xl md:text-2xl text-primary-foreground/90 mb-8 max-w-2xl mx-auto"
+            className="text-xl md:text-2xl text-primary-foreground/90 mb-8 max-w-3xl mx-auto"
           >
-            Fast, reliable, and secure shipping services connecting you to the world
+            Nepal's Premier Cargo & Logistics Partner - Connecting Businesses Worldwide with Fast, Reliable, and Secure Shipping Solutions
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -49,18 +109,20 @@ const Home = () => {
             transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <Button size="lg" asChild className="bg-accent hover:bg-accent/90 text-accent-foreground hover:scale-105 transition-transform">
-              <NavLink to="/contact">Get a Quote</NavLink>
-            </Button>
-            <Button size="lg" variant="outline" asChild className="bg-white/10 border-white text-white hover:bg-white/20 hover:scale-105 transition-transform">
-              <NavLink to="/tracking">Track Shipment</NavLink>
-            </Button>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Button size="lg" asChild className="bg-accent hover:bg-accent/90 text-accent-foreground shadow-lg hover:shadow-xl transition-all">
+                <NavLink to="/contact">Get a Quote</NavLink>
+              </Button>
+            </motion.div>
           </motion.div>
         </div>
       </section>
 
-      {/* Stats Section with Animated Counters */}
+      {/* Stats Section */}
       <StatsSection />
+
+      {/* Metrics Dashboard with Charts */}
+      <MetricsDashboard />
 
       {/* Services Overview */}
       <section className="py-20">
@@ -195,6 +257,12 @@ const Home = () => {
 
       {/* Testimonials */}
       <Testimonials />
+
+      {/* Team Section */}
+      <TeamSection />
+
+      {/* FAQ Section */}
+      <FAQ />
 
       {/* Client Logos */}
       <ClientLogos />
