@@ -51,6 +51,7 @@ All colors MUST be HSL.
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
     --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+    --shadow-glow: 0 0 40px rgba(255, 107, 0, 0.3);
   }
 
   .dark {
@@ -95,5 +96,16 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', system-ui, sans-serif;
+  }
+}
+
+@layer utilities {
+  .glow-text-accent {
+    text-shadow: 0 0 15px rgba(255, 107, 0, 0.5);
   }
 }

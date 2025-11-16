@@ -42,13 +42,22 @@ const ClientLogos = () => {
               <motion.div
                 key={idx}
                 className="flex-shrink-0 w-40 h-24 flex items-center justify-center bg-card border border-border rounded-lg"
-                whileHover={{ scale: 1.05, borderColor: "hsl(var(--accent))" }}
+                whileHover={{ 
+                  scale: 1.05, 
+                  borderColor: "hsl(var(--accent))",
+                  boxShadow: "0 0 20px rgba(255, 107, 0, 0.3)"
+                }}
                 transition={{ duration: 0.2 }}
               >
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-primary font-['Poppins']">
+                  <motion.div 
+                    className="text-3xl font-bold text-primary font-['Poppins']"
+                    whileHover={{ 
+                      textShadow: "0 0 15px rgba(255, 107, 0, 0.5)"
+                    }}
+                  >
                     {client.logo}
-                  </div>
+                  </motion.div>
                   <div className="text-xs text-muted-foreground mt-1">
                     {client.name}
                   </div>

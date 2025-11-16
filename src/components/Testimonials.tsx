@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -33,6 +33,15 @@ const Testimonials = () => {
 
   const next = () => setCurrent((current + 1) % testimonials.length);
   const prev = () => setCurrent((current - 1 + testimonials.length) % testimonials.length);
+
+  // Auto-scroll functionality
+  useEffect(() => {
+    const timer = setInterval(() => {
+      next();
+    }, 5000); // Change testimonial every 5 seconds
+
+    return () => clearInterval(timer);
+  }, [current]);
 
   return (
     <section className="py-20 bg-secondary/30">
