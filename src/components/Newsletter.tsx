@@ -72,7 +72,7 @@ export const Newsletter = () => {
             placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="min-w-[250px]"
+            className="min-w-[250px] focus:text-black dark:focus:text-black [&:not(:placeholder-shown)]:text-black dark:[&:not(:placeholder-shown)]:text-black"
             disabled={isLoading}
           />
           <Button type="submit" disabled={isLoading}>

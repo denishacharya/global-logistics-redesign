@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavLink } from "@/components/NavLink";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -6,6 +6,16 @@ import logo from "@/assets/team-global-logo.jpeg";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navItems = [
     { to: "/", label: "Home" },
@@ -21,7 +31,13 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <NavLink to="/" className="flex items-center">
-            <img src={logo} alt="Team Global Logistics" className="h-12 w-auto" />
+            <img 
+              src={logo} 
+              alt="Team Global Logistics" 
+              className={`w-auto transition-all duration-300 ${
+                isScrolled ? "h-10" : "h-12"
+              }`} 
+            />
           </NavLink>
 
           {/* Desktop Navigation */}
