@@ -198,14 +198,17 @@ const Contact = () => {
                 <CardDescription>Visit us at our main office in Kathmandu</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="aspect-video bg-muted rounded-lg flex items-center justify-center">
-                  <div className="text-center">
-                    <MapPin className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                    <p className="text-muted-foreground">Interactive Map</p>
-                    <p className="text-sm text-muted-foreground mt-2">
-                      123 Logistics Street, Kathmandu, Nepal
-                    </p>
-                  </div>
+                <div className="aspect-video rounded-lg overflow-hidden">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.6565847987387!2d85.31426431506227!3d27.69495498279891!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjfCsDQxJzQxLjgiTiA4NcKwMTgnNTkuMCJF!5e0!3m2!1sen!2snp!4v1234567890123!5m2!1sen!2snp"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="Team Global Logistics Office Location"
+                  />
                 </div>
 
                 <div className="mt-6 space-y-4">

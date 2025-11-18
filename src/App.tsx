@@ -11,7 +11,10 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Services from "./pages/Services";
 import Contact from "./pages/Contact";
+import Blog from "./pages/Blog";
+import CookiePolicy from "./pages/CookiePolicy";
 import NotFound from "./pages/NotFound";
+import { CookieConsent } from "./components/CookieConsent";
 
 const queryClient = new QueryClient();
 
@@ -73,6 +76,32 @@ const AnimatedRoutes = () => {
             </motion.div>
           }
         />
+        <Route
+          path="/blog"
+          element={
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Blog />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/cookie-policy"
+          element={
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <CookiePolicy />
+            </motion.div>
+          }
+        />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route
           path="*"
@@ -105,6 +134,7 @@ const App = () => (
             <AnimatedRoutes />
           </main>
           <Footer />
+          <CookieConsent />
         </div>
       </BrowserRouter>
     </TooltipProvider>
