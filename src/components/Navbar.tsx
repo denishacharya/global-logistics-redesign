@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { NavLink } from "@/components/NavLink";
-import { Menu, X, Truck } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logo from "@/assets/team-global-logo.jpeg";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,6 +11,7 @@ const Navbar = () => {
     { to: "/", label: "Home" },
     { to: "/about", label: "About Us" },
     { to: "/services", label: "Services" },
+    { to: "/blog", label: "Blog" },
     { to: "/contact", label: "Contact" },
   ];
 
@@ -18,10 +20,8 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <NavLink to="/" className="flex items-center space-x-2 text-primary font-bold text-xl">
-            <Truck className="h-8 w-8" />
-            <span className="hidden sm:inline font-['Poppins']">Team Global Logistics</span>
-            <span className="sm:hidden font-['Poppins']">TGL</span>
+          <NavLink to="/" className="flex items-center">
+            <img src={logo} alt="Team Global Logistics" className="h-12 w-auto" />
           </NavLink>
 
           {/* Desktop Navigation */}
