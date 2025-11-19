@@ -14,6 +14,7 @@ import CountUp from "react-countup";
 import { useInView } from "react-intersection-observer";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import heroImage from "@/assets/hero-logistics.jpg";
 
 const Home = () => {
@@ -87,6 +88,20 @@ const Home = () => {
         </div>
         
         <div className="relative z-10 container mx-auto px-4">
+          {/* Lottie Animation */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="w-32 h-32 md:w-48 md:h-48 mx-auto mb-8"
+          >
+            <DotLottieReact
+              src="https://lottie.host/f7a52b07-04c1-4357-871e-e89ae09c15e4/lODuOEtY8G.lottie"
+              loop
+              autoplay
+            />
+          </motion.div>
+          
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}

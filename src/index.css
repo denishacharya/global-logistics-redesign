@@ -108,4 +108,76 @@ All colors MUST be HSL.
   .glow-text-accent {
     text-shadow: 0 0 15px rgba(255, 107, 0, 0.5);
   }
+  
+  /* Premium Page Animations */
+  .fade-in {
+    animation: fadeIn 0.8s ease forwards;
+  }
+  
+  .slide-left {
+    animation: slideInLeft 0.8s ease forwards;
+  }
+  
+  .scale-in {
+    animation: scaleIn 0.7s ease forwards;
+  }
+}
+
+/* Premium Teal Glow Cursor */
+body {
+  cursor: none;
+}
+
+.cursor-glow {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(20, 184, 166, 0.5);
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.15s ease;
+  box-shadow: 0 0 30px rgba(20, 184, 166, 0.8), 0 0 60px rgba(20, 184, 166, 0.4);
+}
+
+.cursor-trail {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(20, 184, 166, 0.3);
+  pointer-events: none;
+  z-index: 9998;
+  transition: transform 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

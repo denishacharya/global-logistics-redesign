@@ -18,8 +18,8 @@ const ServiceCard = ({ icon: Icon, title, description }: ServiceCardProps) => {
         <CardHeader>
           <motion.div 
             className="mb-4 inline-flex p-3 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
-            whileHover={{ rotate: 360, scale: 1.1 }}
-            transition={{ duration: 0.6 }}
+            whileHover={{ scale: 1.1 }}
+            transition={{ duration: 0.3 }}
           >
             <Icon className="h-8 w-8" />
           </motion.div>
