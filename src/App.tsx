@@ -11,6 +11,7 @@ import CursorGlow from "./components/CursorGlow";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Services from "./pages/Services";
+import Team from "./pages/Team";
 import Contact from "./pages/Contact";
 import Blog from "./pages/Blog";
 import CookiePolicy from "./pages/CookiePolicy";
@@ -61,6 +62,19 @@ const AnimatedRoutes = () => {
               transition={{ duration: 0.3 }}
             >
               <Services />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/team"
+          element={
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Team />
             </motion.div>
           }
         />

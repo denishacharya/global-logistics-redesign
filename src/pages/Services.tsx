@@ -1,4 +1,5 @@
 import ServiceCard from "@/components/ServiceCard";
+import { motion } from "framer-motion";
 import {
   Plane,
   Ship,
@@ -18,26 +19,48 @@ const Services = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground py-20">
+      <motion.section 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground py-20"
+      >
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center animate-fade-in">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="max-w-3xl mx-auto text-center"
+          >
             <h1 className="text-4xl md:text-5xl font-bold mb-6 font-['Poppins']">Our Services</h1>
             <p className="text-xl text-primary-foreground/90">
               Comprehensive logistics solutions designed to meet all your shipping and supply chain needs
             </p>
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Main Services */}
-      <section className="py-20">
+      <motion.section 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true, margin: "-100px" }}
+        className="py-20"
+      >
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
             <h2 className="text-3xl md:text-4xl font-bold mb-4 font-['Poppins']">Core Services</h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
               Professional logistics services tailored to your business requirements
             </p>
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <ServiceCard
@@ -72,17 +95,29 @@ const Services = () => {
             />
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Additional Services */}
-      <section className="py-20 bg-secondary">
+      <motion.section 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true, margin: "-100px" }}
+        className="py-20 bg-secondary"
+      >
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
             <h2 className="text-3xl md:text-4xl font-bold mb-4 font-['Poppins']">Additional Services</h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
               Comprehensive support services to complement your logistics needs
             </p>
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <ServiceCard
@@ -117,17 +152,29 @@ const Services = () => {
             />
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Service Features */}
-      <section className="py-20">
+      <motion.section 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true, margin: "-100px" }}
+        className="py-20"
+      >
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 font-['Poppins']">Why Our Services Stand Out</h2>
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 font-['Poppins']">Why Choose Us</h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              What makes Team Global Logistics your best choice
+              Experience the difference with our premium logistics services
             </p>
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <div className="flex items-start space-x-4 p-6 rounded-lg bg-card border border-border">
@@ -179,7 +226,7 @@ const Services = () => {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 };

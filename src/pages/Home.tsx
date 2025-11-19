@@ -88,20 +88,6 @@ const Home = () => {
         </div>
         
         <div className="relative z-10 container mx-auto px-4">
-          {/* Lottie Animation */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="w-48 h-48 md:w-64 md:h-64 mx-auto mb-8"
-          >
-            <DotLottieReact
-              src="https://lottie.host/ab97bb70-c6a4-4b9d-8ca6-564ed6ed8b3e/BUHACWutOj.json"
-              loop
-              autoplay
-            />
-          </motion.div>
-          
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}

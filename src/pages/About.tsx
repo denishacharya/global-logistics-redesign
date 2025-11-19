@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Target, Eye, Users, TrendingUp } from "lucide-react";
+import { motion } from "framer-motion";
 import aboutTeamImage from "@/assets/about-team.jpg";
 import TeamSection from "@/components/TeamSection";
 
@@ -7,22 +8,43 @@ const About = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground py-20">
+      <motion.section 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground py-20"
+      >
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center animate-fade-in">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="max-w-3xl mx-auto text-center"
+          >
             <h1 className="text-4xl md:text-5xl font-bold mb-6 font-['Poppins']">About Team Global Logistics</h1>
             <p className="text-xl text-primary-foreground/90">
               Building bridges across continents with reliable, innovative logistics solutions since 2008
             </p>
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Company Story */}
-      <section className="py-20">
+      <motion.section 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true, margin: "-100px" }}
+        className="py-20"
+      >
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="animate-fade-in">
+            <motion.div 
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
               <h2 className="text-3xl md:text-4xl font-bold mb-6 font-['Poppins']">Our Story</h2>
               <p className="text-muted-foreground text-lg mb-4">
                 Team Global Logistics was founded with a vision to revolutionize the logistics industry by providing
@@ -38,20 +60,31 @@ const About = () => {
                 Today, we're proud to be recognized as one of the leading logistics providers, known for our
                 reliability, efficiency, and innovative approach to solving complex supply chain challenges.
               </p>
-            </div>
-            <div className="animate-fade-in" style={{ animationDelay: "0.2s" }}>
+            </motion.div>
+            <motion.div 
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
               <img
                 src={aboutTeamImage}
                 alt="Team Global Logistics Team"
                 className="rounded-lg shadow-xl w-full h-auto"
               />
-            </div>
+            </motion.div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Mission & Vision */}
-      <section className="py-20 bg-secondary">
+      <motion.section 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true, margin: "-100px" }}
+        className="py-20 bg-secondary"
+      >
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <Card className="border-border animate-fade-in">
@@ -91,10 +124,16 @@ const About = () => {
             </Card>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Core Values */}
-      <section className="py-20">
+      <motion.section 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true, margin: "-100px" }}
+        className="py-20"
+      >
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 font-['Poppins']">Our Core Values</h2>
@@ -141,10 +180,16 @@ const About = () => {
             </Card>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Team Section */}
-      <section className="py-20 bg-secondary">
+      <motion.section 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true, margin: "-100px" }}
+        className="py-20 bg-secondary"
+      >
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold mb-6 font-['Poppins']">Our Team</h2>
@@ -160,7 +205,7 @@ const About = () => {
             </p>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Our Team Section */}
       <TeamSection />
