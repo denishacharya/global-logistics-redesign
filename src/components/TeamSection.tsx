@@ -1,9 +1,6 @@
-import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Card, CardContent } from "@/components/ui/card";
-import { Plane, Truck, Package, Ship } from "lucide-react";
-import { gsap } from "gsap";
 
 const team = [
   {
@@ -36,12 +33,7 @@ const team = [
   },
 ];
 
-const floatingIcons = [
-  { Icon: Plane, color: "text-primary" },
-  { Icon: Truck, color: "text-accent" },
-  { Icon: Package, color: "text-primary" },
-  { Icon: Ship, color: "text-accent" },
-];
+const floatingIcons = [];
 
 interface TeamCardProps {
   member: typeof team[0];
@@ -50,45 +42,6 @@ interface TeamCardProps {
 }
 
 const TeamCard = ({ member, index, inView }: TeamCardProps) => {
-  const [isHovered, setIsHovered] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
-  const iconsRef = useRef<(HTMLDivElement | null)[]>([]);
-
-  useEffect(() => {
-    if (isHovered && cardRef.current) {
-      iconsRef.current.forEach((icon, idx) => {
-        if (icon) {
-          const angle = (idx * 360) / 4;
-          const radius = 80;
-          const x = Math.cos((angle * Math.PI) / 180) * radius;
-          const y = Math.sin((angle * Math.PI) / 180) * radius;
-
-          gsap.to(icon, {
-            x,
-            y,
-            opacity: 1,
-            scale: 1,
-            duration: 0.5,
-            delay: idx * 0.1,
-            ease: "back.out(1.7)",
-          });
-        }
-      });
-    } else {
-      iconsRef.current.forEach((icon) => {
-        if (icon) {
-          gsap.to(icon, {
-            x: 0,
-            y: 0,
-            opacity: 0,
-            scale: 0,
-            duration: 0.3,
-          });
-        }
-      });
-    }
-  }, [isHovered]);
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
@@ -96,57 +49,27 @@ const TeamCard = ({ member, index, inView }: TeamCardProps) => {
       transition={{ duration: 0.6, delay: index * 0.1 }}
       className="relative"
     >
-      <Card
-        ref={cardRef}
-        className="border-border bg-card overflow-hidden group cursor-pointer relative"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        {/* Floating Icons */}
-        {floatingIcons.map((item, idx) => (
-          <div
-            key={idx}
-            ref={(el) => (iconsRef.current[idx] = el)}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none opacity-0"
-          >
-            <div className={`p-2 rounded-full bg-background/90 backdrop-blur-sm shadow-lg ${item.color}`}>
-              <item.Icon className="h-5 w-5" />
-            </div>
-          </div>
-        ))}
+      <Card className="border-border bg-card overflow-hidden group cursor-pointer hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
 
         <CardContent className="p-0">
           <div className="relative overflow-hidden">
-            <motion.img
+            <img
               src={member.image}
               alt={member.name}
-              className="w-full h-72 object-cover"
-              whileHover={{ scale: 1.1 }}
-              transition={{ duration: 0.5 }}
+              className="w-full h-80 object-cover transition-transform duration-300 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </div>
           
           <div className="p-6">
-            <h3 className="text-xl font-bold text-foreground mb-1 font-['Poppins']">
+            <h3 className="text-xl font-bold mb-2 font-['Poppins'] group-hover:text-primary transition-colors">
               {member.name}
             </h3>
-            <p className="text-accent font-medium mb-3">{member.role}</p>
-            
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={
-                isHovered
-                  ? { height: "auto", opacity: 1 }
-                  : { height: 0, opacity: 0 }
-              }
-              transition={{ duration: 0.3 }}
-              className="overflow-hidden"
-            >
-              <p className="text-muted-foreground text-sm leading-relaxed">
-                {member.bio}
-              </p>
-            </motion.div>
+            <p className="text-sm text-accent font-medium mb-3">
+              {member.role}
+            </p>
+            <p className="text-muted-foreground text-sm leading-relaxed">
+              {member.bio}
+            </p>
           </div>
         </CardContent>
       </Card>

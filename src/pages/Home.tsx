@@ -5,7 +5,7 @@ import AnimatedSection from "@/components/AnimatedSection";
 import Testimonials from "@/components/Testimonials";
 import ClientLogos from "@/components/ClientLogos";
 import MetricsDashboard from "@/components/MetricsDashboard";
-import TeamSection from "@/components/TeamSection";
+
 import FAQ from "@/components/FAQ";
 import SEOHead, { OrganizationSchema } from "@/components/SEOHead";
 import { Plane, Ship, Truck, Package, Globe, Clock, Shield, Award } from "lucide-react";
@@ -93,10 +93,10 @@ const Home = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="w-32 h-32 md:w-48 md:h-48 mx-auto mb-8"
+            className="w-48 h-48 md:w-64 md:h-64 mx-auto mb-8"
           >
             <DotLottieReact
-              src="https://lottie.host/f7a52b07-04c1-4357-871e-e89ae09c15e4/lODuOEtY8G.lottie"
+              src="https://lottie.host/ab97bb70-c6a4-4b9d-8ca6-564ed6ed8b3e/BUHACWutOj.json"
               loop
               autoplay
             />
@@ -272,9 +272,6 @@ const Home = () => {
 
       {/* Testimonials */}
       <Testimonials />
-
-      {/* Team Section */}
-      <TeamSection />
 
       {/* FAQ Section */}
       <FAQ />
