@@ -93,7 +93,7 @@ const Services = () => {
             <ServiceCard
               icon={BarChart3}
               title="Supply Chain Management"
-              description="End-to-end supply chain solutions optimizing your logistics operations for maximum efficiency and cost savings."
+              description="Comprehensive end-to-end supply chain solutions that optimize your entire logistics network. We analyze, design, and implement strategies to reduce costs, improve efficiency, and enhance visibility across your supply chain operations."
             />
             <ServiceCard
               icon={MapPin}

@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Target, Eye, Users, TrendingUp } from "lucide-react";
 import aboutTeamImage from "@/assets/about-team.jpg";
+import TeamSection from "@/components/TeamSection";
 
 const About = () => {
   return (
@@ -160,6 +161,9 @@ const About = () => {
           </div>
         </div>
       </section>
+
+      {/* Our Team Section */}
+      <TeamSection />
     </div>
   );
 };

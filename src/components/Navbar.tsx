@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { NavLink } from "@/components/NavLink";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import logo from "@/assets/team-global-logo.jpeg";
+import logo from "@/assets/team-global-logo-transparent.svg";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,7 +10,7 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 10);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -26,7 +26,11 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-background border-b border-border sticky top-0 z-50 backdrop-blur-sm bg-background/95">
+    <nav className={`sticky top-0 z-50 transition-all duration-300 ${
+      isScrolled 
+        ? "bg-white backdrop-blur-md border-b border-gray-200 shadow-sm" 
+        : "bg-transparent"
+    }`}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
