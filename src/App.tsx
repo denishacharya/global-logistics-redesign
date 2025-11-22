@@ -17,6 +17,7 @@ import Blog from "./pages/Blog";
 import CookiePolicy from "./pages/CookiePolicy";
 import NotFound from "./pages/NotFound";
 import { CookieConsent } from "./components/CookieConsent";
+import { ChatWidget } from "./components/chat/ChatWidget";
 
 const queryClient = new QueryClient();
 
@@ -151,6 +152,7 @@ const App = () => (
           </main>
           <Footer />
           <CookieConsent />
+          <ChatWidget />
         </div>
       </BrowserRouter>
     </TooltipProvider>
