@@ -17,8 +17,8 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 217 33% 17%;
 
-    /* Deep navy blue for professionalism and trust */
-    --primary: 217 91% 20%;
+    /* Deep navy blue for professionalism and trust - Team Global Logistics primary */
+    --primary: 219 65% 32%;
     --primary-foreground: 0 0% 100%;
 
     /* Light gray for secondary elements */
@@ -28,8 +28,8 @@ All colors MUST be HSL.
     --muted: 214 32% 95%;
     --muted-foreground: 217 20% 51%;
 
-    /* Vibrant orange for CTAs and energy */
-    --accent: 27 96% 61%;
+    /* Vibrant orange for CTAs and energy - Team Global Logistics accent */
+    --accent: 38 100% 50%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
@@ -64,7 +64,7 @@ All colors MUST be HSL.
     --popover: 217 33% 13%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 217 91% 45%;
+    --primary: 219 65% 45%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 217 33% 17%;
@@ -73,7 +73,7 @@ All colors MUST be HSL.
     --muted: 217 33% 17%;
     --muted-foreground: 217 20% 65%;
 
-    --accent: 27 96% 61%;
+    --accent: 38 100% 50%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62% 30%;
