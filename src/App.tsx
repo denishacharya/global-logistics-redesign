@@ -15,6 +15,7 @@ import Team from "./pages/Team";
 import Contact from "./pages/Contact";
 import Blog from "./pages/Blog";
 import CookiePolicy from "./pages/CookiePolicy";
+import Inquiry from "./pages/Inquiry";
 import NotFound from "./pages/NotFound";
 import { CookieConsent } from "./components/CookieConsent";
 import { ChatWidget } from "./components/chat/ChatWidget";
@@ -115,6 +116,19 @@ const AnimatedRoutes = () => {
               transition={{ duration: 0.3 }}
             >
               <CookiePolicy />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/inquiry"
+          element={
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Inquiry />
             </motion.div>
           }
         />
