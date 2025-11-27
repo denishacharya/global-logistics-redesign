@@ -23,6 +23,7 @@ const Navbar = () => {
     { to: "/services", label: "Services" },
     { to: "/team", label: "Our Team" },
     { to: "/blog", label: "Blog" },
+    { to: "/inquiry", label: "Request Quote" },
     { to: "/contact", label: "Contact" },
   ];
 
@@ -59,7 +60,7 @@ const Navbar = () => {
               </NavLink>
             ))}
             <Button asChild className="bg-accent hover:bg-accent/90">
-              <NavLink to="/contact">Get Quote</NavLink>
+              <NavLink to="/inquiry">Get Quote</NavLink>
             </Button>
           </div>
 
@@ -90,7 +91,7 @@ const Navbar = () => {
                 </NavLink>
               ))}
               <Button asChild className="bg-accent hover:bg-accent/90 w-full">
-                <NavLink to="/contact" onClick={() => setIsOpen(false)}>
+                <NavLink to="/inquiry" onClick={() => setIsOpen(false)}>
                   Get Quote
                 </NavLink>
               </Button>
