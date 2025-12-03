@@ -1,5 +1,5 @@
 import { NavLink } from "@/components/NavLink";
-import { Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
+import { Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Instagram, ExternalLink } from "lucide-react";
 import logo from "@/assets/team-global-logo.jpeg";
 import { Newsletter } from "./Newsletter";
 
@@ -106,6 +106,19 @@ const Footer = () => {
               <li>Warehousing</li>
               <li>Customs Clearance</li>
             </ul>
+            
+            {/* India Partner */}
+            <div className="mt-6 pt-4 border-t border-primary-foreground/20">
+              <h4 className="font-semibold text-sm mb-2 font-['Poppins']">India Partner</h4>
+              <a 
+                href="https://jayeshlogistics.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-primary-foreground/80 hover:text-accent transition-colors"
+              >
+                Jayesh Logistics <ExternalLink className="h-3 w-3" />
+              </a>
+            </div>
           </div>
 
           {/* Contact Info */}
