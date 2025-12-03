@@ -3,6 +3,7 @@ import { Target, Eye, Users, TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
 import aboutTeamImage from "@/assets/about-team.jpg";
 import TeamSection from "@/components/TeamSection";
+import PartnerSection from "@/components/PartnerSection";
 
 const About = () => {
   return (
@@ -209,6 +210,9 @@ const About = () => {
 
       {/* Our Team Section */}
       <TeamSection />
+
+      {/* Partner Section */}
+      <PartnerSection />
     </div>
   );
 };

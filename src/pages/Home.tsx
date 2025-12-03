@@ -7,6 +7,7 @@ import ClientLogos from "@/components/ClientLogos";
 import MetricsDashboard from "@/components/MetricsDashboard";
 
 import FAQ from "@/components/FAQ";
+import PartnerSection from "@/components/PartnerSection";
 import SEOHead, { OrganizationSchema } from "@/components/SEOHead";
 import { Plane, Ship, Truck, Package, Globe, Clock, Shield, Award } from "lucide-react";
 import { motion } from "framer-motion";
@@ -261,6 +262,9 @@ const Home = () => {
 
       {/* FAQ Section */}
       <FAQ />
+
+      {/* Partner Section */}
+      <PartnerSection />
 
       {/* Client Logos */}
       <ClientLogos />
