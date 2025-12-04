@@ -1,0 +1,182 @@
+{
+  "locations": [
+    {
+      "name": "Guangzhou",
+      "lat": 23.1291,
+      "lng": 113.2644,
+      "country": "China",
+      "region": "Asia",
+      "services": ["air", "ocean", "road"]
+    },
+    {
+      "name": "Shenzhen",
+      "lat": 22.5431,
+      "lng": 114.0579,
+      "country": "China",
+      "region": "Asia",
+      "services": ["air", "ocean", "road"]
+    },
+    {
+      "name": "Yiwu",
+      "lat": 29.3069,
+      "lng": 120.0758,
+      "country": "China",
+      "region": "Asia",
+      "services": ["air", "road"]
+    },
+    {
+      "name": "Hong Kong",
+      "lat": 22.3193,
+      "lng": 114.1694,
+      "country": "China",
+      "region": "Asia",
+      "services": ["air", "ocean"]
+    },
+    {
+      "name": "Shanghai",
+      "lat": 31.2304,
+      "lng": 121.4737,
+      "country": "China",
+      "region": "Asia",
+      "services": ["air", "ocean", "road"]
+    },
+    {
+      "name": "Delhi",
+      "lat": 28.7041,
+      "lng": 77.1025,
+      "country": "India",
+      "region": "Asia",
+      "services": ["air", "road"]
+    },
+    {
+      "name": "Kolkata",
+      "lat": 22.5726,
+      "lng": 88.3639,
+      "country": "India",
+      "region": "Asia",
+      "services": ["air", "ocean", "road"]
+    },
+    {
+      "name": "Mumbai",
+      "lat": 19.076,
+      "lng": 72.8777,
+      "country": "India",
+      "region": "Asia",
+      "services": ["air", "ocean"]
+    },
+    {
+      "name": "Bangkok",
+      "lat": 13.7563,
+      "lng": 100.5018,
+      "country": "Thailand",
+      "region": "Asia",
+      "services": ["air", "ocean"]
+    },
+    {
+      "name": "Tokyo",
+      "lat": 35.6762,
+      "lng": 139.6503,
+      "country": "Japan",
+      "region": "Asia",
+      "services": ["air", "ocean"]
+    },
+    {
+      "name": "Seoul",
+      "lat": 37.5665,
+      "lng": 126.978,
+      "country": "South Korea",
+      "region": "Asia",
+      "services": ["air", "ocean"]
+    },
+    {
+      "name": "Jakarta",
+      "lat": -6.2088,
+      "lng": 106.8456,
+      "country": "Indonesia",
+      "region": "Asia",
+      "services": ["air", "ocean"]
+    },
+    {
+      "name": "Los Angeles",
+      "lat": 34.0522,
+      "lng": -118.2437,
+      "country": "USA",
+      "region": "Americas",
+      "services": ["air", "ocean"]
+    },
+    {
+      "name": "New York",
+      "lat": 40.7128,
+      "lng": -74.006,
+      "country": "USA",
+      "region": "Americas",
+      "services": ["air", "ocean"]
+    },
+    {
+      "name": "Chicago",
+      "lat": 41.8781,
+      "lng": -87.6298,
+      "country": "USA",
+      "region": "Americas",
+      "services": ["air"]
+    },
+    {
+      "name": "London",
+      "lat": 51.5074,
+      "lng": -0.1278,
+      "country": "UK",
+      "region": "Europe",
+      "services": ["air", "ocean"]
+    },
+    {
+      "name": "Paris",
+      "lat": 48.8566,
+      "lng": 2.3522,
+      "country": "France",
+      "region": "Europe",
+      "services": ["air", "road"]
+    },
+    {
+      "name": "Berlin",
+      "lat": 52.52,
+      "lng": 13.405,
+      "country": "Germany",
+      "region": "Europe",
+      "services": ["air", "road"]
+    },
+    {
+      "name": "Amsterdam",
+      "lat": 52.3676,
+      "lng": 4.9041,
+      "country": "Netherlands",
+      "region": "Europe",
+      "services": ["air", "ocean"]
+    },
+    {
+      "name": "Rome",
+      "lat": 41.9028,
+      "lng": 12.4964,
+      "country": "Italy",
+      "region": "Europe",
+      "services": ["air", "ocean"]
+    },
+    {
+      "name": "Kathmandu",
+      "lat": 27.7172,
+      "lng": 85.324,
+      "country": "Nepal",
+      "region": "Asia",
+      "services": ["air", "road"],
+      "isHub": true
+    },
+    {
+      "name": "Birgunj",
+      "lat": 27.0104,
+      "lng": 84.8821,
+      "country": "Nepal",
+      "region": "Asia",
+      "services": ["road"],
+      "isHub": true
+    }
+  ]
+}

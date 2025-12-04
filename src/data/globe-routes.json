@@ -1,0 +1,134 @@
+{
+  "routes": [
+    {
+      "from": "Guangzhou",
+      "to": "Kathmandu",
+      "startLat": 23.1291,
+      "startLng": 113.2644,
+      "endLat": 27.7172,
+      "endLng": 85.324,
+      "type": "air",
+      "transitTime": "3-5 days"
+    },
+    {
+      "from": "Hong Kong",
+      "to": "Los Angeles",
+      "startLat": 22.3193,
+      "startLng": 114.1694,
+      "endLat": 34.0522,
+      "endLng": -118.2437,
+      "type": "air",
+      "transitTime": "1-2 days"
+    },
+    {
+      "from": "Delhi",
+      "to": "Kathmandu",
+      "startLat": 28.7041,
+      "startLng": 77.1025,
+      "endLat": 27.7172,
+      "endLng": 85.324,
+      "type": "air",
+      "transitTime": "1 day"
+    },
+    {
+      "from": "London",
+      "to": "Kathmandu",
+      "startLat": 51.5074,
+      "startLng": -0.1278,
+      "endLat": 27.7172,
+      "endLng": 85.324,
+      "type": "air",
+      "transitTime": "2-3 days"
+    },
+    {
+      "from": "New York",
+      "to": "Kathmandu",
+      "startLat": 40.7128,
+      "startLng": -74.006,
+      "endLat": 27.7172,
+      "endLng": 85.324,
+      "type": "air",
+      "transitTime": "3-4 days"
+    },
+    {
+      "from": "Shenzhen",
+      "to": "Kolkata",
+      "startLat": 22.5431,
+      "startLng": 114.0579,
+      "endLat": 22.5726,
+      "endLng": 88.3639,
+      "type": "ocean",
+      "transitTime": "14-18 days"
+    },
+    {
+      "from": "Shanghai",
+      "to": "Mumbai",
+      "startLat": 31.2304,
+      "startLng": 121.4737,
+      "endLat": 19.076,
+      "endLng": 72.8777,
+      "type": "ocean",
+      "transitTime": "12-16 days"
+    },
+    {
+      "from": "Amsterdam",
+      "to": "Kolkata",
+      "startLat": 52.3676,
+      "startLng": 4.9041,
+      "endLat": 22.5726,
+      "endLng": 88.3639,
+      "type": "ocean",
+      "transitTime": "25-30 days"
+    },
+    {
+      "from": "Los Angeles",
+      "to": "Mumbai",
+      "startLat": 34.0522,
+      "startLng": -118.2437,
+      "endLat": 19.076,
+      "endLng": 72.8777,
+      "type": "ocean",
+      "transitTime": "20-25 days"
+    },
+    {
+      "from": "Shenzhen",
+      "to": "Birgunj",
+      "startLat": 22.5431,
+      "startLng": 114.0579,
+      "endLat": 27.0104,
+      "endLng": 84.8821,
+      "type": "road",
+      "transitTime": "12-15 days"
+    },
+    {
+      "from": "Delhi",
+      "to": "Birgunj",
+      "startLat": 28.7041,
+      "startLng": 77.1025,
+      "endLat": 27.0104,
+      "endLng": 84.8821,
+      "type": "road",
+      "transitTime": "2-3 days"
+    },
+    {
+      "from": "Kolkata",
+      "to": "Kathmandu",
+      "startLat": 22.5726,
+      "startLng": 88.3639,
+      "endLat": 27.7172,
+      "endLng": 85.324,
+      "type": "road",
+      "transitTime": "3-4 days"
+    },
+    {
+      "from": "Mumbai",
+      "to": "Birgunj",
+      "startLat": 19.076,
+      "startLng": 72.8777,
+      "endLat": 27.0104,
+      "endLng": 84.8821,
+      "type": "road",
+      "transitTime": "5-7 days"
+    }
+  ]
+}
