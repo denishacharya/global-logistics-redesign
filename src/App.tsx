@@ -19,7 +19,8 @@ import Inquiry from "./pages/Inquiry";
 import Products from "./pages/Products";
 import NotFound from "./pages/NotFound";
 import { CookieConsent } from "./components/CookieConsent";
-import { ChatWidget } from "./components/chat/ChatWidget";
+import { ScrollToTop } from "./components/ScrollToTop";
+import { ScrollRestoration } from "./components/ScrollRestoration";
 
 const queryClient = new QueryClient();
 
@@ -173,6 +174,7 @@ const App = () => (
       <CursorGlow />
       <Preloader />
       <BrowserRouter>
+        <ScrollRestoration />
         <div className="flex flex-col min-h-screen">
           <Navbar />
           <main className="flex-1">
@@ -180,7 +182,7 @@ const App = () => (
           </main>
           <Footer />
           <CookieConsent />
-          <ChatWidget />
+          <ScrollToTop />
         </div>
       </BrowserRouter>
     </TooltipProvider>
