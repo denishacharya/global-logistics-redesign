@@ -1,12 +1,19 @@
-import { useEffect, useRef, useState, useMemo, lazy, Suspense, useCallback } from 'react';
+import { useState, useMemo, useEffect, useRef, useCallback, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import {
+  ComposableMap,
+  Geographies,
+  Geography,
+  Marker,
+  Line,
+} from 'react-simple-maps';
 import { X, Plane, Ship, Truck } from 'lucide-react';
 import locationsData from '@/data/globe-locations.json';
 import routesData from '@/data/globe-routes.json';
 
-// Lazy load the Globe component for better performance
-const Globe = lazy(() => import('react-globe.gl'));
+// High quality TopoJSON world map
+const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
 // Type definitions
 interface Location {
@@ -30,11 +37,11 @@ interface Route {
   transitTime: string;
 }
 
-// Color configuration
+// Route colors
 const ROUTE_COLORS = {
-  air: ['rgba(255, 100, 100, 0.9)', 'rgba(255, 150, 150, 0.4)'],
-  ocean: ['rgba(100, 180, 255, 0.9)', 'rgba(150, 200, 255, 0.4)'],
-  road: ['rgba(100, 255, 150, 0.9)', 'rgba(150, 255, 180, 0.4)'],
+  air: '#FF6B6B',
+  ocean: '#4ECDC4',
+  road: '#95D44A',
 };
 
 const SERVICE_ICONS = {
@@ -43,7 +50,7 @@ const SERVICE_ICONS = {
   road: Truck,
 };
 
-// Globe Loading Component
+// Globe Loader
 const GlobeLoader = () => (
   <div className="flex flex-col items-center justify-center h-[400px] md:h-[500px]">
     <div className="relative">
@@ -54,14 +61,8 @@ const GlobeLoader = () => (
   </div>
 );
 
-// City Modal Component
-const CityModal = ({ 
-  city, 
-  onClose 
-}: { 
-  city: Location | null; 
-  onClose: () => void;
-}) => {
+// City Modal
+const CityModal = memo(({ city, onClose }: { city: Location | null; onClose: () => void }) => {
   if (!city) return null;
 
   const cityRoutes = routesData.routes.filter(
@@ -88,10 +89,7 @@ const CityModal = ({
             <h3 className="text-xl font-bold text-white">{city.name}</h3>
             <p className="text-gray-400 text-sm">{city.country} • {city.region}</p>
           </div>
-          <button
-            onClick={onClose}
-            className="p-1 hover:bg-gray-800 rounded-lg transition-colors"
-          >
+          <button onClick={onClose} className="p-1 hover:bg-gray-800 rounded-lg transition-colors">
             <X className="w-5 h-5 text-gray-400" />
           </button>
         </div>
@@ -106,7 +104,7 @@ const CityModal = ({
                   key={service}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium ${
                     service === 'air' ? 'bg-red-500/20 text-red-400' :
-                    service === 'ocean' ? 'bg-blue-500/20 text-blue-400' :
+                    service === 'ocean' ? 'bg-teal-500/20 text-teal-400' :
                     'bg-green-500/20 text-green-400'
                   }`}
                 >
@@ -127,10 +125,8 @@ const CityModal = ({
                   <span className="text-gray-300">{route.from} → {route.to}</span>
                   <span className={`text-xs ${
                     route.type === 'air' ? 'text-red-400' :
-                    route.type === 'ocean' ? 'text-blue-400' : 'text-green-400'
-                  }`}>
-                    {route.transitTime}
-                  </span>
+                    route.type === 'ocean' ? 'text-teal-400' : 'text-green-400'
+                  }`}>{route.transitTime}</span>
                 </div>
               ))}
             </div>
@@ -145,162 +141,195 @@ const CityModal = ({
       </motion.div>
     </motion.div>
   );
-};
+});
+
+CityModal.displayName = 'CityModal';
+
+// Animated marker component
+const AnimatedMarker = memo(({ 
+  location, 
+  onClick, 
+  isHovered, 
+  onHover 
+}: { 
+  location: Location; 
+  onClick: () => void;
+  isHovered: boolean;
+  onHover: (name: string | null) => void;
+}) => {
+  const markerSize = location.isHub ? 12 : 8;
+  const color = location.isHub ? '#FFA500' : '#00D4FF';
+  
+  return (
+    <Marker coordinates={[location.lng, location.lat]}>
+      <g 
+        onClick={onClick}
+        onMouseEnter={() => onHover(location.name)}
+        onMouseLeave={() => onHover(null)}
+        style={{ cursor: 'pointer' }}
+      >
+        {/* Pulse animation for hub cities */}
+        {location.isHub && (
+          <circle
+            r={markerSize + 8}
+            fill={color}
+            opacity={0.2}
+            className="animate-ping"
+          />
+        )}
+        {/* Outer glow */}
+        <circle
+          r={markerSize + 4}
+          fill={color}
+          opacity={isHovered ? 0.4 : 0.2}
+          style={{ transition: 'opacity 0.2s ease' }}
+        />
+        {/* Main marker */}
+        <circle
+          r={markerSize}
+          fill={color}
+          stroke="white"
+          strokeWidth={2}
+          style={{ 
+            filter: 'drop-shadow(0 0 6px rgba(0, 212, 255, 0.6))',
+            transform: isHovered ? 'scale(1.2)' : 'scale(1)',
+            transition: 'transform 0.2s ease'
+          }}
+        />
+        {/* City name tooltip */}
+        {isHovered && (
+          <g>
+            <rect
+              x={-40}
+              y={-35}
+              width={80}
+              height={24}
+              rx={4}
+              fill="rgba(0, 0, 0, 0.85)"
+            />
+            <text
+              textAnchor="middle"
+              y={-18}
+              style={{
+                fontFamily: 'Inter, sans-serif',
+                fontSize: 11,
+                fill: 'white',
+                fontWeight: 500,
+              }}
+            >
+              {location.name}
+            </text>
+          </g>
+        )}
+      </g>
+    </Marker>
+  );
+});
+
+AnimatedMarker.displayName = 'AnimatedMarker';
+
+// Animated route line
+const RouteLine = memo(({ route }: { route: Route }) => {
+  const color = ROUTE_COLORS[route.type];
+  
+  return (
+    <Line
+      from={[route.startLng, route.startLat]}
+      to={[route.endLng, route.endLat]}
+      stroke={color}
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeDasharray="6 4"
+      style={{
+        filter: `drop-shadow(0 0 4px ${color})`,
+      }}
+    />
+  );
+});
+
+RouteLine.displayName = 'RouteLine';
 
 const LogisticsGlobe = () => {
-  const globeEl = useRef<any>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [dimensions, setDimensions] = useState({ width: 600, height: 500 });
-  const [isHovered, setIsHovered] = useState(false);
   const [selectedCity, setSelectedCity] = useState<Location | null>(null);
+  const [hoveredCity, setHoveredCity] = useState<string | null>(null);
+  const [rotation, setRotation] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [globeReady, setGlobeReady] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const rotationRef = useRef<number | null>(null);
 
-  // Intersection observer for lazy loading
+  // Lazy loading with intersection observer
   const { ref: inViewRef, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true,
     rootMargin: '100px',
   });
 
-  // Combine refs
-  const setRefs = useCallback(
-    (node: HTMLDivElement | null) => {
-      containerRef.current = node;
-      inViewRef(node);
-    },
-    [inViewRef]
-  );
-
-  // Check for mobile device
+  // Check for mobile
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Responsive sizing
+  // Auto-rotation animation
   useEffect(() => {
-    const updateDimensions = () => {
-      if (containerRef.current) {
-        const containerWidth = containerRef.current.offsetWidth;
-        const width = Math.min(containerWidth, isMobile ? 350 : 700);
-        const height = isMobile ? Math.min(width, 350) : Math.min(width * 0.85, 550);
-        setDimensions({ width, height });
+    if (!inView || !isLoaded) return;
+    
+    const rotationSpeed = isHovered ? 0.15 : 0.05;
+    
+    const animate = () => {
+      setRotation(prev => (prev + rotationSpeed) % 360);
+      rotationRef.current = requestAnimationFrame(animate);
+    };
+    
+    rotationRef.current = requestAnimationFrame(animate);
+    
+    return () => {
+      if (rotationRef.current) {
+        cancelAnimationFrame(rotationRef.current);
       }
     };
+  }, [inView, isHovered, isLoaded]);
 
-    updateDimensions();
-    window.addEventListener('resize', updateDimensions);
-    return () => window.removeEventListener('resize', updateDimensions);
+  // Memoized data
+  const locations = useMemo(() => locationsData.locations as Location[], []);
+  const routes = useMemo(() => {
+    const allRoutes = routesData.routes as Route[];
+    return isMobile ? allRoutes.filter((_, i) => i % 2 === 0) : allRoutes;
   }, [isMobile]);
 
-  // Globe controls and rotation
-  useEffect(() => {
-    if (globeEl.current && globeReady) {
-      const controls = globeEl.current.controls();
-      controls.autoRotate = true;
-      controls.autoRotateSpeed = isHovered ? 1.2 : 0.4;
-      controls.enableZoom = !isMobile;
-      controls.enablePan = false;
-      controls.minDistance = 200;
-      controls.maxDistance = 500;
-      globeEl.current.pointOfView({ lat: 25, lng: 80, altitude: isMobile ? 3 : 2.2 });
-    }
-  }, [isHovered, isMobile, globeReady]);
-
-  // Prepare points data with optimized geometry
-  const pointsData = useMemo(() => 
-    locationsData.locations.map((loc: Location) => ({
-      ...loc,
-      size: loc.isHub ? (isMobile ? 0.12 : 0.15) : (isMobile ? 0.06 : 0.08),
-      color: loc.isHub ? '#FFA500' : '#00D4FF',
-    })), 
-  [isMobile]);
-
-  // Prepare arcs data - simplified on mobile
-  const arcsData = useMemo(() => {
-    const routes = routesData.routes as Route[];
-    // On mobile, show fewer arcs for performance
-    const filteredRoutes = isMobile ? routes.filter((_, i) => i % 2 === 0) : routes;
-    
-    return filteredRoutes.map((route) => ({
-      ...route,
-      color: ROUTE_COLORS[route.type],
-      label: `${route.from} → ${route.to}`,
-    }));
-  }, [isMobile]);
-
-  // Handle point click
-  const handlePointClick = useCallback((point: any) => {
-    const city = locationsData.locations.find(
-      (loc: Location) => loc.name === point.name
-    );
-    if (city) {
-      setSelectedCity(city as Location);
-    }
+  const handleCityClick = useCallback((city: Location) => {
+    setSelectedCity(city);
   }, []);
 
-  // Generate tooltip HTML
-  const getPointLabel = useCallback((d: any) => {
-    const serviceLabels = d.services?.map((s: string) => {
-      const colors = { air: '#FF6464', ocean: '#64B4FF', road: '#64FF96' };
-      return `<span style="color: ${colors[s as keyof typeof colors]}">${s.charAt(0).toUpperCase() + s.slice(1)}</span>`;
-    }).join(' • ') || '';
-
-    return `
-      <div style="
-        background: rgba(0,0,0,0.9); 
-        padding: 12px 16px; 
-        border-radius: 8px; 
-        color: white; 
-        font-size: 13px;
-        border: 1px solid rgba(255,255,255,0.1);
-        box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-      ">
-        <strong style="font-size: 14px;">${d.name}</strong>
-        <div style="color: #9CA3AF; font-size: 11px; margin-top: 2px;">${d.country}</div>
-        ${serviceLabels ? `<div style="margin-top: 8px; font-size: 11px;">${serviceLabels}</div>` : ''}
-        <div style="margin-top: 6px; font-size: 10px; color: #6B7280;">Click for details</div>
-      </div>
-    `;
+  const handleHover = useCallback((name: string | null) => {
+    setHoveredCity(name);
   }, []);
 
-  const getArcLabel = useCallback((d: any) => {
-    const typeColors = { air: '#FF6464', ocean: '#64B4FF', road: '#64FF96' };
-    const typeNames = { air: 'Air Freight', ocean: 'Ocean Freight', road: 'Road Transport' };
-    
-    return `
-      <div style="
-        background: rgba(0,0,0,0.9); 
-        padding: 10px 14px; 
-        border-radius: 6px; 
-        color: white; 
-        font-size: 12px;
-        border: 1px solid rgba(255,255,255,0.1);
-      ">
-        <div style="font-weight: 600;">${d.from} → ${d.to}</div>
-        <div style="color: ${typeColors[d.type as keyof typeof typeColors]}; font-size: 11px; margin-top: 4px;">
-          ${typeNames[d.type as keyof typeof typeNames]} • ${d.transitTime}
-        </div>
-      </div>
-    `;
-  }, []);
+  // Map projection configuration
+  const projection = useMemo(() => ({
+    rotate: [-rotation - 80, -20, 0] as [number, number, number],
+    scale: isMobile ? 180 : 220,
+  }), [rotation, isMobile]);
 
   return (
     <section 
       id="services-globe" 
       className="py-16 md:py-24 relative overflow-hidden"
-      style={{ background: 'linear-gradient(180deg, #000000 0%, #0a1628 50%, #000000 100%)' }}
+      style={{ 
+        background: 'linear-gradient(180deg, #0066B3 0%, #004080 50%, #002850 100%)'
+      }}
     >
-      {/* Premium background effects */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/8 rounded-full blur-[120px]" />
-        <div className="absolute top-1/4 right-1/4 w-[300px] h-[300px] bg-blue-500/5 rounded-full blur-[100px]" />
-        <div className="absolute bottom-1/4 left-1/4 w-[250px] h-[250px] bg-orange-500/5 rounded-full blur-[80px]" />
+      {/* Background pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div 
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          }}
+        />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
@@ -310,12 +339,12 @@ const LogisticsGlobe = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-center mb-10"
+          className="text-center mb-8"
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-4 font-['Poppins'] text-white">
             Countries We Serve Worldwide
           </h2>
-          <p className="text-base md:text-lg text-gray-400 max-w-2xl mx-auto">
+          <p className="text-base md:text-lg text-white/80 max-w-2xl mx-auto">
             Air, Ocean & Road Freight Connections Across 50+ Countries
           </p>
         </motion.div>
@@ -326,78 +355,126 @@ const LogisticsGlobe = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
           viewport={{ once: true }}
-          className="flex flex-wrap justify-center gap-4 md:gap-8 mb-8"
+          className="flex flex-wrap justify-center gap-4 md:gap-8 mb-6"
         >
           {[
-            { type: 'Air Freight', color: 'bg-red-500', icon: Plane },
-            { type: 'Ocean Freight', color: 'bg-blue-500', icon: Ship },
-            { type: 'Road Transport', color: 'bg-green-500', icon: Truck },
+            { type: 'Air Freight', color: ROUTE_COLORS.air, icon: Plane },
+            { type: 'Ocean Freight', color: ROUTE_COLORS.ocean, icon: Ship },
+            { type: 'Road Transport', color: ROUTE_COLORS.road, icon: Truck },
           ].map(({ type, color, icon: Icon }) => (
-            <div key={type} className="flex items-center gap-2">
-              <div className={`w-3 h-3 md:w-4 md:h-4 rounded-full ${color} shadow-lg`} />
-              <Icon className="w-4 h-4 text-gray-400 hidden md:block" />
-              <span className="text-xs md:text-sm text-gray-300">{type}</span>
+            <div key={type} className="flex items-center gap-2 bg-white/10 px-3 py-1.5 rounded-full backdrop-blur-sm">
+              <div className="w-3 h-3 rounded-full" style={{ backgroundColor: color, boxShadow: `0 0 8px ${color}` }} />
+              <Icon className="w-4 h-4 text-white/80" />
+              <span className="text-xs md:text-sm text-white/90">{type}</span>
             </div>
           ))}
         </motion.div>
 
         {/* Globe Container */}
         <motion.div
-          ref={setRefs}
+          ref={inViewRef}
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           viewport={{ once: true }}
-          id="globe-container"
           className="flex justify-center items-center mx-auto relative"
-          style={{ maxWidth: '750px' }}
+          style={{ maxWidth: '800px' }}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          {/* Globe glow effect */}
-          <div 
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background: 'radial-gradient(circle at center, rgba(29, 58, 138, 0.15) 0%, transparent 60%)',
-            }}
-          />
-
           {inView ? (
-            <Suspense fallback={<GlobeLoader />}>
-              <Globe
-                ref={globeEl}
-                width={dimensions.width}
-                height={dimensions.height}
-                backgroundColor="rgba(0,0,0,0)"
-                globeImageUrl="//unpkg.com/three-globe/example/img/earth-dark.jpg"
-                atmosphereColor="#1D3A8A"
-                atmosphereAltitude={0.2}
-                showAtmosphere={true}
-                onGlobeReady={() => setGlobeReady(true)}
-                // Points (Cities)
-                pointsData={pointsData}
-                pointLat="lat"
-                pointLng="lng"
-                pointColor="color"
-                pointAltitude={0.01}
-                pointRadius="size"
-                pointLabel={getPointLabel}
-                onPointClick={handlePointClick}
-                // Arcs (Routes)
-                arcsData={arcsData}
-                arcStartLat="startLat"
-                arcStartLng="startLng"
-                arcEndLat="endLat"
-                arcEndLng="endLng"
-                arcColor="color"
-                arcAltitude={isMobile ? 0.1 : 0.12}
-                arcStroke={isMobile ? 0.3 : 0.4}
-                arcDashLength={0.5}
-                arcDashGap={0.3}
-                arcDashAnimateTime={isMobile ? 3000 : 2000}
-                arcLabel={getArcLabel}
+            <div className="relative w-full aspect-square max-w-[600px] md:max-w-[700px]">
+              {/* Globe shadow/glow */}
+              <div 
+                className="absolute inset-0 rounded-full"
+                style={{
+                  background: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.15) 0%, transparent 60%)',
+                  filter: 'blur(40px)',
+                  transform: 'scale(1.1)',
+                }}
               />
-            </Suspense>
+              
+              {/* Globe container with shadow */}
+              <div 
+                className="relative w-full h-full"
+                style={{
+                  filter: 'drop-shadow(0 20px 60px rgba(0, 0, 0, 0.4))',
+                }}
+              >
+                <ComposableMap
+                  projection="geoOrthographic"
+                  projectionConfig={projection}
+                  style={{ width: '100%', height: '100%' }}
+                >
+                  {/* Globe background with gradient */}
+                  <defs>
+                    <linearGradient id="globeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#DAEAF6" stopOpacity="0.9" />
+                      <stop offset="40%" stopColor="#B5D4E8" stopOpacity="0.8" />
+                      <stop offset="100%" stopColor="#8FBFDC" stopOpacity="0.6" />
+                    </linearGradient>
+                    <filter id="globeShadow">
+                      <feDropShadow dx="0" dy="0" stdDeviation="8" floodColor="rgba(0,0,0,0.3)" />
+                    </filter>
+                    <filter id="glow">
+                      <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+                      <feMerge>
+                        <feMergeNode in="coloredBlur" />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
+                    </filter>
+                  </defs>
+                  
+                  {/* Ocean/globe sphere */}
+                  <circle 
+                    cx={350} 
+                    cy={350} 
+                    r={isMobile ? 180 : 220} 
+                    fill="url(#globeGradient)"
+                    filter="url(#globeShadow)"
+                  />
+                  
+                  {/* Countries */}
+                  <Geographies geography={geoUrl}>
+                    {({ geographies }) => {
+                      if (!isLoaded) {
+                        setTimeout(() => setIsLoaded(true), 100);
+                      }
+                      return geographies.map((geo) => (
+                        <Geography
+                          key={geo.rsmKey}
+                          geography={geo}
+                          fill="#005BAC"
+                          stroke="#0066B3"
+                          strokeWidth={0.5}
+                          style={{
+                            default: { outline: 'none' },
+                            hover: { outline: 'none', fill: '#0077CC' },
+                            pressed: { outline: 'none' },
+                          }}
+                        />
+                      ));
+                    }}
+                  </Geographies>
+
+                  {/* Route lines */}
+                  {routes.map((route, idx) => (
+                    <RouteLine key={`route-${idx}`} route={route} />
+                  ))}
+
+                  {/* Location markers */}
+                  {locations.map((location) => (
+                    <AnimatedMarker
+                      key={location.name}
+                      location={location}
+                      onClick={() => handleCityClick(location)}
+                      isHovered={hoveredCity === location.name}
+                      onHover={handleHover}
+                    />
+                  ))}
+                </ComposableMap>
+              </div>
+            </div>
           ) : (
             <GlobeLoader />
           )}
@@ -412,14 +489,14 @@ const LogisticsGlobe = () => {
           className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 mt-10 md:mt-14 max-w-3xl mx-auto"
         >
           {[
-            { value: '50+', label: 'Countries', color: 'text-primary' },
-            { value: '22', label: 'City Hubs', color: 'text-cyan-400' },
-            { value: '13', label: 'Active Routes', color: 'text-orange-400' },
-            { value: '24/7', label: 'Support', color: 'text-green-400' },
+            { value: '50+', label: 'Countries', color: 'text-white' },
+            { value: '22', label: 'City Hubs', color: 'text-cyan-300' },
+            { value: '13', label: 'Active Routes', color: 'text-orange-300' },
+            { value: '24/7', label: 'Support', color: 'text-green-300' },
           ].map(({ value, label, color }) => (
-            <div key={label} className="text-center p-4 bg-white/5 rounded-xl backdrop-blur-sm">
+            <div key={label} className="text-center p-4 bg-white/10 rounded-xl backdrop-blur-sm border border-white/10">
               <div className={`text-2xl md:text-3xl font-bold ${color}`}>{value}</div>
-              <div className="text-xs md:text-sm text-gray-400 mt-1">{label}</div>
+              <div className="text-xs md:text-sm text-white/70 mt-1">{label}</div>
             </div>
           ))}
         </motion.div>
@@ -430,13 +507,13 @@ const LogisticsGlobe = () => {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.6 }}
           viewport={{ once: true }}
-          className="text-center text-gray-500 text-xs mt-6"
+          className="text-center text-white/50 text-xs mt-6"
         >
-          {isMobile ? 'Touch and drag to explore' : 'Click on cities to view details • Hover for route info • Scroll to zoom'}
+          Click on cities to view service details • Hover for city names
         </motion.p>
       </div>
 
-      {/* City Detail Modal */}
+      {/* City Modal */}
       <AnimatePresence>
         {selectedCity && (
           <CityModal city={selectedCity} onClose={() => setSelectedCity(null)} />
