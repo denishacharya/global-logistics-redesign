@@ -1,4 +1,5 @@
 import ServiceCard from "@/components/ServiceCard";
+import LogisticsGlobe from "@/components/LogisticsGlobe";
 import { motion } from "framer-motion";
 import {
   Plane,
@@ -153,6 +154,9 @@ const Services = () => {
           </div>
         </div>
       </motion.section>
+
+      {/* 3D Logistics Globe */}
+      <LogisticsGlobe />
 
       {/* Service Features */}
       <motion.section 
